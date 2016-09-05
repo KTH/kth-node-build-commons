@@ -1,5 +1,5 @@
 'use strict'
-const configuration = require('kth-node-configuration')
+const configurator = require('kth-node-configuration')
 let paths
 
 module.exports = {
@@ -15,23 +15,15 @@ module.exports = {
     ['prod', 'ref', 'dev'].forEach(env => {
       process.env.NODE_ENV = env
 
-      const config = configuration.create({
-        path: '/config',
-        isRelativePath: true,
-        common: {
-          commonFiles: ['commonSettings.js']
-        },
-        dev: {
-          envFiles: ['devSettings.js']
-        },
-        ref: {
-          envFiles: ['refSettings.js'],
-        },
-        prod: {
-          envFiles: ['prodSettings.js'],
-        }
+      const config = configurator({
+        defaults: require('config/commonSettings'),
+        local: require('config/localSettings'),
+        ref: require('config/refSettings'),
+        prod: require('config/prodSettings'),
+        dev: require('config/devSettings')
       })
-      const safeConf = config.getSafeConf()
+
+      const safeConf = config.safe()
       const fs = require('fs')
       const stream = fs.createWriteStream(`public/js/app/config-${env}.js`)
 
