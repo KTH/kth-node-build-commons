@@ -10,6 +10,7 @@ const notify = require('gulp-notify')
 const webpack = require('webpack-stream')
 const named = require('vinyl-named')
 const uglify = require('gulp-uglify')
+const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 
 const webpackConfig = require('./webpack.config')
 const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome']
@@ -107,16 +108,27 @@ function bundleWithWebpack (src, dest, options) {
 
 gulp.task('vendor:dev', function () {
   return bundleWithWebpack('./public/js/vendor.js', 'bundles/dev', {
-    devtool: 'source-map'
+    devtool: 'source-map',
+    plugins: [
+      new UglifyJsPlugin()
+    ]
   })
 })
 
 gulp.task('vendor:prod', function () {
-  return bundleWithWebpack('./public/js/vendor.js', 'bundles/prod', {})
+  return bundleWithWebpack('./public/js/vendor.js', 'bundles/prod', {
+    plugins: [
+      new UglifyJsPlugin()
+    ]
+  })
 })
 
 gulp.task('vendor:ref', function () {
-  return bundleWithWebpack('./public/js/vendor.js', 'bundles/ref', {})
+  return bundleWithWebpack('./public/js/vendor.js', 'bundles/ref', {
+    plugins: [
+      new UglifyJsPlugin()
+    ]
+  })
 })
 
 gulp.task('webpack:dev', function () {

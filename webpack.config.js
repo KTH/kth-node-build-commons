@@ -39,6 +39,9 @@ module.exports = {
       config: path.join(dirname, `public/js/app/config-dev.js`)
     }
 
+    webpackConfig.plugins = [
+      new webpack.optimize.UglifyJsPlugin()
+    ]
     webpackConfig.devtool = 'source-map'
 
     return webpackConfig
@@ -48,12 +51,20 @@ module.exports = {
       config: path.join(dirname, `public/js/app/config-prod.js`)
     }
 
+    webpackConfig.plugins = [
+      new webpack.optimize.UglifyJsPlugin()
+    ]
+
     return webpackConfig
   },
   ref(dirname) {
     webpackConfig.resolve.alias = {
       config: path.join(dirname, `public/js/app/config-ref.js`)
     }
+
+    webpackConfig.plugins = [
+      new webpack.optimize.UglifyJsPlugin()
+    ]
 
     return webpackConfig
   }
