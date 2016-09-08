@@ -29,7 +29,7 @@
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
     "html-loader": "^0.4.3",
-    "kth-node-configuration": "git@github.com:KTH/kth-node-configuration.git#v1.0.0",
+    "kth-node-configuration": "KTH/kth-node-configuration.git#v1.0.0",
     "sinon": "^1.17.3",
     "source-map": "^0.5.5",
     "style-loader": "^0.13.1",
