@@ -7,7 +7,7 @@ Common use case is to import the built file in the client side code with webpack
 
 `Required: call .setPaths() with an object as parameter in the web project.`
 
-### example: /path/to/web-project/buildConfig.js
+### Example: /path/to/web-project/buildConfig.js
 ```
 	const paths = require('./server/init/routing/paths')
 	const buildConfig = require('kth-node-build-commons/buildConfig')
@@ -21,7 +21,7 @@ The gulp file in this project is intended to be used in a project, to include th
 
 `Required: set dir name and start path in the web project`
 
-### example: /path/to/web-project/gulpfile.js
+### Example: /path/to/web-project/gulpfile.js
 ```
 	const gulp = require('gulp')
 	const commonsGulp = require('kth-node-build-commons/gulpfile')
@@ -36,7 +36,7 @@ The gulp file in this project is intended to be used in a project, to include th
 
 It's possible to create project specific tasks as usual with gulp, just make sure this is done _after_ gulp.tasks is overwritten.
 
-### example: /path/to/web-project/gulpfile.js
+### Example: /path/to/web-project/gulpfile.js
 
 ```
 const gulp = require('gulp')
