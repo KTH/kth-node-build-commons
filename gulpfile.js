@@ -80,21 +80,6 @@ gulp.task('transpileSass', function () {
   }
 })
 
-gulp.task('browser-sync', function (done) {
-  var browserSync = require('browser-sync').create()
-
-  // delay startup of browser-sync to allow server to initialize
-  setTimeout(function () {
-    done()
-    browserSync.init({
-      startPath: startPath,
-      proxy: 'localhost:3000',
-      port: 3003,
-      files: ['server/views/**/*.*', 'bundles/**/*.*', 'public/css/**/*.scss', 'public/img/**/*.*']
-    })
-  }, 2000)
-})
-
 function bundleWithWebpack (src, dest, options) {
   return gulp.src(src)
     .pipe(print())
@@ -166,7 +151,7 @@ gulp.task('webpack:prod', function () {
     .pipe(gulp.dest('bundles/prod/app/view/'))
 })
 
-gulp.task('watch', ['browser-sync'], function () {
+gulp.task('watch', function () {
   return gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack:dev'])
 })
 
