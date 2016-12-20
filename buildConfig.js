@@ -1,6 +1,7 @@
 'use strict'
 const configurator = require('kth-node-configuration')
 const path = require('path')
+const Promise = require('bluebird')
 let paths
 
 module.exports = {
@@ -18,25 +19,49 @@ module.exports = {
     ;['prod', 'ref', 'dev'].forEach(env => {
       process.env.NODE_ENV = env
 
-      const config = configurator({
+      const tmpConfig = {
         defaults: require(path.join(configBasePath, '/commonSettings')),
-        local: require(path.join(configBasePath, '/localSettings')),
-        ref: require(path.join(configBasePath, '/refSettings')),
-        prod: require(path.join(configBasePath, '/prodSettings')),
-        dev: require(path.join(configBasePath, '/devSettings'))
-      })
+        local: require(path.join(configBasePath, '/localSettings'))
+      }
 
-      const safeConf = config.safe()
-      const fs = require('fs')
-      const stream = fs.createWriteStream(`public/js/app/config-${env}.js`)
+      const fs = Promise.promisifyAll(require('fs'))
 
-      const conf = JSON.stringify({ config: safeConf, paths: paths }, null, 2)
-      const fileContent = `module.exports = ${conf}
-`
-      stream.once('open', function (fd) {
-        stream.write(fileContent)
-        stream.end()
+      // Optionally a dev-, ref- and prodSettings if the file exists
+      const promises = [
+        { 'name': 'ref', path: path.join(configBasePath, '/refSettings')},
+        { 'name': 'prod', path: path.join(configBasePath, '/prodSettings')},
+        { 'name': 'dev', path: path.join(configBasePath, '/devSettings')}].map(function (item) {
+        return fs.statAsync(item.path)
+          .then(function (stat) {
+            return Promise.resolve(item)
+          })
+          .catch(function () {
+            return Promise.resolve(undefined)
+          })
       })
+      Promise.all(promises)
+        .then(function (results) {
+          results.forEach(function (result) {
+            if (result !== undefined) {
+              tmpConfig[result.name] = require(result.path)
+            }
+          })
+          return Promise.resolve(tmpConfig)
+        })
+        .then(function (tmpConfig) {
+          // Now we have added these settings and can generate the config-xxx.js file
+          const config = configurator(tmpConfig)
+          const safeConf = config.safe()
+          const stream = fs.createWriteStream(`public/js/app/config-${env}.js`)
+
+          const conf = JSON.stringify({ config: safeConf, paths: paths }, null, 2)
+          const fileContent = `module.exports = ${conf}
+    `
+          stream.once('open', function (fd) {
+            stream.write(fileContent)
+            stream.end()
+          })
+        })
     })
   }
 }
