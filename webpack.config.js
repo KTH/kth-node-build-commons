@@ -1,7 +1,12 @@
 'use strict'
 
-const path = require('path')
 const webpack = require('webpack')
+var deepAssign = require('deep-assign')
+
+/**
+ * This file contains some standard options for webpack. They are merged with provided
+ * options by using the exported config factory.
+ */
 
 const webpackConfig = {
   resolve: {
@@ -33,39 +38,9 @@ const webpackConfig = {
 
 }
 
-module.exports = {
-  dev(dirname) {
-    webpackConfig.resolve.alias = {
-      config: path.join(dirname, `public/js/app/config-dev.js`)
-    }
 
-    webpackConfig.plugins = [
-      new webpack.optimize.UglifyJsPlugin()
-    ]
-    webpackConfig.devtool = 'source-map'
-
-    return webpackConfig
-  },
-  prod(dirname) {
-    webpackConfig.resolve.alias = {
-      config: path.join(dirname, `public/js/app/config-prod.js`)
-    }
-
-    webpackConfig.plugins = [
-      new webpack.optimize.UglifyJsPlugin()
-    ]
-
-    return webpackConfig
-  },
-  ref(dirname) {
-    webpackConfig.resolve.alias = {
-      config: path.join(dirname, `public/js/app/config-ref.js`)
-    }
-
-    webpackConfig.plugins = [
-      new webpack.optimize.UglifyJsPlugin()
-    ]
-
-    return webpackConfig
-  }
+module.exports = function (options) {
+  // Create a config object by doing a deep merge, options override webpackConfig
+  const outp = deepAssign({}, webpackConfig, options)
+  return outp
 }

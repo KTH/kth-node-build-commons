@@ -32,6 +32,10 @@ The gulp file in this project is intended to be used in a project, to include th
 	gulp.tasks = commonsGulp.gulp.tasks
 ```
 
+### Minifying Knockout code
+In PROD and REF we use uglify to minify JavaScript. By specifying the option --preserve-comments we keep ALL comments that
+Webpack has bundled. This allows Knockout.js bindings to work properly.
+
 ### Adding project specific tasks
 
 It's possible to create project specific tasks as usual with gulp, just make sure this is done _after_ gulp.tasks is overwritten.
