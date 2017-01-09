@@ -1,10 +1,7 @@
 'use strict'
 const gulp = require('gulp')
 
-const bundleBrowserJSTask = require('./tasks/webpack')
-const moveResourcesTasks = require('./tasks/moveResources')
-const sassTask = require('./tasks/sass')
-const vendorTask = require('./tasks/vendor')
+const { webpack, moveResources, sass, vendor } = require('./tasks')
 
 const globals = {
   dirname: undefined,
@@ -21,22 +18,22 @@ const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome']
  *
  */
 
-gulp.task('webpack:prod', bundleBrowserJSTask('production', globals))
-gulp.task('webpack:ref', bundleBrowserJSTask('reference', globals))
-gulp.task('webpack:dev', bundleBrowserJSTask('development', globals))
+gulp.task('webpack:prod', webpack(globals, 'prod'))
+gulp.task('webpack:ref', webpack(globals, 'ref'))
+gulp.task('webpack:dev', webpack(globals, 'dev'))
 
 gulp.task('moveAssets', assets)
 
-gulp.task('clean', moveResourcesTasks.cleanKthStyle)
-gulp.task('moveKthStyle', ['clean'], moveResourcesTasks.moveKthStyle)
-gulp.task('moveBootstrap', moveResourcesTasks.moveBootstrap)
-gulp.task('moveFontAwesome', moveResourcesTasks.moveFontAwesome)
+gulp.task('clean', moveResources.cleanKthStyle)
+gulp.task('moveKthStyle', ['clean'], moveResources.moveKthStyle)
+gulp.task('moveBootstrap', moveResources.moveBootstrap)
+gulp.task('moveFontAwesome', moveResources.moveFontAwesome)
 
-gulp.task('transpileSass', sassTask)
+gulp.task('transpileSass', sass)
 
-gulp.task('vendor:dev', vendorTask('development'))
-gulp.task('vendor:prod', vendorTask('production'))
-gulp.task('vendor:ref', vendorTask('reference'))
+gulp.task('vendor:dev', vendor('dev'))
+gulp.task('vendor:prod', vendor('prod'))
+gulp.task('vendor:ref', vendor('ref'))
 
 
 gulp.task('watch', function () {

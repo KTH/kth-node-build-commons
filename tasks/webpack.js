@@ -36,7 +36,7 @@ function getUglifyOptions () {
   }
 }
 
-module.exports = function (env, globals) {
+module.exports = function (globals, env) {
   return function () {
     const configPath = configPaths[getEnvKey(env)]
     const destinationPath = destinationPaths[getEnvKey(env)]

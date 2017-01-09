@@ -1,9 +1,9 @@
 module.exports.isProduction = function (env) {
-  return env === 'production' || gulpUtil.env.production || process.env.NODE_ENV === 'production'
+  return env === 'production' || gulpUtil.env.prod || process.env.NODE_ENV.startsWith('prod')
 }
 
 module.exports.isReference = function (env) {
-  return env === 'reference' || gulpUtil.env.reference || process.env.NODE_ENV === 'ref'
+  return env === 'reference' || gulpUtil.env.ref || process.env.NODE_ENV.startsWith('ref')
 }
 
 module.exports.isDevelopment =  function (env) {
