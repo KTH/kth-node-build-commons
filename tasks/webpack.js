@@ -12,40 +12,7 @@ const path = require('path')
 const getWebpackJSConfig = require('../webpack.config')
 const webpack = require('webpack-stream')
 
-function isProduction (env) {
-  return env === 'production' || gulpUtil.env.production || process.env.NODE_ENV === 'production'
-}
-
-function isReference (env) {
-  return env === 'reference' || gulpUtil.env.reference || process.env.NODE_ENV === 'ref'
-}
-
-function isDevelopment (env) {
-  return env === 'development' || !isProduction(env) && !isReference(env)
-}
-
-function getEnvKey (env) {
-  if (isProduction(env)) {
-    return 'prod'
-  } else if (isReference(env)) {
-    return 'ref'
-  } else {
-    return 'dev'
-  }
-}
-
-const onError = function (err) {
-  console.log('err', err)
-  growly.notify('Gulp failed!' + err)
-  notify.onError({
-    title: 'Gulp',
-    subtitle: 'Failure!',
-    message: 'Error: <%= error.message %>',
-    sound: 'Beep'
-  })(err)
-
-  this.emit('end')
-}
+const { isProduction, isReference, isDevelopment, getEnvKey, onError } = require('./common')
 
 const configPaths = {
   dev: `public/js/app/config-dev.js`,
@@ -68,8 +35,8 @@ function getUglifyOptions () {
     return undefined
   }
 }
-// TODO Better name for dirname. Is root for webpack ???
-module.exports = function (env, dirname) {
+
+module.exports = function (env, globals) {
   return function () {
     const configPath = configPaths[getEnvKey(env)]
     const destinationPath = destinationPaths[getEnvKey(env)]
@@ -83,7 +50,7 @@ module.exports = function (env, dirname) {
       .pipe(webpack(getWebpackJSConfig({
         resolve: {
           alias: {
-            config: path.join(dirname, configPath)
+            config: path.join(globals.dirname, configPath)
           }
         },
         devtool: isDevelopment(env) ? 'source-map' : undefined
