@@ -1,4 +1,5 @@
 const gulp = require('gulp')
+const del = require('del')
 
 module.exports.moveKthStyle = function () {
   gulp.src('./node_modules/kth-style/sass/**')
