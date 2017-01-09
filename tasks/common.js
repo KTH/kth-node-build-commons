@@ -3,11 +3,11 @@ const growly = require('growly')
 const notify = require('gulp-notify')
 
 const isProduction = function (env) {
-  return env === 'production' || gulpUtil.env.prod || process.env.NODE_ENV.startsWith('prod')
+  return env === 'production' || gulpUtil.env.prod || process.env.NODE_ENV && process.env.NODE_ENV.startsWith('prod')
 }
 
 const isReference = function (env) {
-  return env === 'reference' || gulpUtil.env.ref || process.env.NODE_ENV.startsWith('ref')
+  return env === 'reference' || gulpUtil.env.ref || process.env.NODE_ENV && process.env.NODE_ENV.startsWith('ref')
 }
 
 const isDevelopment = function (env) {
