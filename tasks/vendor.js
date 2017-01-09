@@ -1,12 +1,16 @@
 const gulp = require('gulp')
+const plumber = require('gulp-plumber')
+const named = require('vinyl-named')
+const print = require('gulp-print')
 const webpack = require('webpack-stream')
+const UglifyJsPlugin = require('UglifyJsPlugin')
 
-const { isProduction, isReference, isDevelopment, getEnvKey, onError } = require('./common')
+const { isDevelopment, getEnvKey, onError } = require('./common')
 
 const destinationPaths = {
-    'dev': 'bundles/dev',
-    'ref': 'bundles/ref',
-    'prod': 'bundles/prod'
+  'dev': 'bundles/dev',
+  'ref': 'bundles/ref',
+  'prod': 'bundles/prod'
 }
 
 module.exports = function (env) {

@@ -1,7 +1,8 @@
 const gulpUtil = require('gulp-util')
 const gulp = require('gulp')
+const sass = require('gulp-sass')
 
-const { isProduction, isReference, isDevelopment, getEnvKey } = require('./common')
+const { isProduction, isReference } = require('./common')
 
 module.exports = function () {
   gulpUtil.log(gulpUtil.colors.bold.underline.blue('Sass Transpile'))

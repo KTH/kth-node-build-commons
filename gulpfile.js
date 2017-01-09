@@ -42,12 +42,13 @@ gulp.task('watch', function () {
 
 module.exports = {
   gulp,
-  addAssetTask(str) {
+  addAssetTask (str) {
     assets.push(str)
   },
-  setStartpath(_path) {
+  setStartpath (_path) {
     globals.startPath = _path
   },
-  setDirname(_dirname) {
+  setDirname (_dirname) {
     globals.dirname = _dirname
-}}
+  }
+}

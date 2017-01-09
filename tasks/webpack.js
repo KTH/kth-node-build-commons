@@ -1,18 +1,15 @@
 const gulp = require('gulp')
-const notify = require('gulp-notify')
-const growly = require('growly')
 const plumber = require('gulp-plumber')
 const named = require('vinyl-named')
 const print = require('gulp-print')
 const gulpIf = require('gulp-if')
-const gulpUtil = require('gulp-util')
 const argv = require('yargs').argv
 const uglify = require('gulp-uglify')
 const path = require('path')
 const getWebpackJSConfig = require('../webpack.config')
 const webpack = require('webpack-stream')
 
-const { isProduction, isReference, isDevelopment, getEnvKey, onError } = require('./common')
+const { isProduction, isDevelopment, getEnvKey, onError } = require('./common')
 
 const configPaths = {
   dev: `public/js/app/config-dev.js`,
