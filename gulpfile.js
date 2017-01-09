@@ -6,38 +6,30 @@ const gulpUtil = require('gulp-util')
 const del = require('del')
 const print = require('gulp-print')
 const plumber = require('gulp-plumber')
-const notify = require('gulp-notify')
 const webpack = require('webpack-stream')
 const named = require('vinyl-named')
-const uglify = require('gulp-uglify')
-const path = require('path')
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
-const argv = require('yargs').argv
-
-const getWebpackJSConfig = require('./webpack.config')
 const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome']
-
+const notify = require('gulp-notify')
 const growly = require('growly')
+
+const bundleBrowserJSTask = require('./tasks/webpack')
+
+
 let dirname
 let startPath
 
 /**
- * 
+ *
  * If you call gulp webpack:prod|ref you can specify --preserve-comments to keep all
  * your comments, which is required when using knockout. I didn't manage to do more
  * precise filtering of comments.
- * 
+ *
  */
 
-function getUglifyOptions () {
-  if (argv['preserve-comments']) {
-    return {
-      preserveComments: 'all'
-    }
-  } else {
-    return undefined
-  }
-}
+gulp.task('webpack:prod', bundleBrowserJSTask('production', dirname))
+gulp.task('webpack:ref', bundleBrowserJSTask('reference', dirname))
+gulp.task('webpack:dev', bundleBrowserJSTask('development', dirname))
 
 const onError = function (err) {
   console.log('err', err)
@@ -129,59 +121,6 @@ gulp.task('vendor:ref', function () {
   })
 })
 
-gulp.task('webpack:dev', function () {
-  gulp.src('public/js/app/view/*.js')
-    .pipe(print())
-    .pipe(named())
-    .pipe(plumber({
-      errorHandler: onError
-    }))
-    .pipe(webpack(getWebpackJSConfig({
-        resolve: { 
-          alias: { 
-            config: path.join(dirname, `public/js/app/config-dev.js`) 
-          } 
-        },
-        devtool: 'source-map'
-    })))
-    .pipe(gulp.dest('bundles/dev/app/view/'))
-})
-
-gulp.task('webpack:ref', function () {
-  gulp.src('public/js/app/view/*.js')
-    .pipe(print())
-    .pipe(named())
-    .pipe(plumber({
-      errorHandler: onError
-    }))
-    .pipe(webpack(getWebpackJSConfig({
-        resolve: { 
-          alias: { 
-            config: path.join(dirname, `public/js/app/config-ref.js`) 
-          } 
-        }
-    })))
-    .pipe(uglify(getUglifyOptions()))
-    .pipe(gulp.dest('bundles/ref/app/view/'))
-})
-
-gulp.task('webpack:prod', function () {
-  gulp.src('public/js/app/view/*.js')
-    .pipe(print())
-    .pipe(named())
-    .pipe(plumber({
-      errorHandler: onError
-    }))
-    .pipe(webpack(getWebpackJSConfig({
-        resolve: { 
-          alias: { 
-            config: path.join(dirname, `public/js/app/config-prod.js`) 
-          } 
-        }
-    })))
-    .pipe(uglify(getUglifyOptions()))
-    .pipe(gulp.dest('bundles/prod/app/view/'))
-})
 
 gulp.task('watch', function () {
   return gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack:dev'])
