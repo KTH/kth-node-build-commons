@@ -3,7 +3,7 @@ const plumber = require('gulp-plumber')
 const named = require('vinyl-named')
 const print = require('gulp-print')
 const webpack = require('webpack-stream')
-const UglifyJsPlugin = require('UglifyJsPlugin')
+const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 
 const { isDevelopment, getEnvKey, onError } = require('./common')
 
