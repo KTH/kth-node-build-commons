@@ -2,14 +2,6 @@ const gulpUtil = require('gulp-util')
 const growly = require('growly')
 const notify = require('gulp-notify')
 
-module.exports = {
-  isProduction: isProduction,
-  isReference: isReference,
-  isDevelopment: isDevelopment,
-  onError: onError,
-  getEnvKey: getEnvKey
-}
-
 const isProduction = function (env) {
   return env === 'production' || gulpUtil.env.prod || process.env.NODE_ENV.startsWith('prod')
 }
@@ -43,4 +35,12 @@ const onError = function (err) {
   })(err)
 
   this.emit('end')
+}
+
+module.exports = {
+  isProduction: isProduction,
+  isReference: isReference,
+  isDevelopment: isDevelopment,
+  onError: onError,
+  getEnvKey: getEnvKey
 }
