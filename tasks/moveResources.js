@@ -5,7 +5,7 @@ module.exports.moveKthStyle = function (done) {
   gulp.src(['./node_modules/kth-style/sass/**',
             './node_modules/kth-style/img/**'])
     .pipe(gulp.dest('./public/css/kth-style/'))
-    .end(done())
+    .on('end', done)
 }
 
 module.exports.moveBootstrap = function (done) {
@@ -14,7 +14,7 @@ module.exports.moveBootstrap = function (done) {
     .pipe(gulp.dest('./public/css/bootstrap/'))
     .src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff*,eof,svg}')
     .pipe(gulp.dest('./public/css/fonts/'))
-    .end(done())
+    .on('end', done)
 }
 
 module.exports.moveFontAwesome = function () {
