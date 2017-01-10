@@ -3,11 +3,13 @@ const del = require('del')
 const mergeStream = require('merge-stream')
 
 module.exports.moveKthStyle = function () {
-  return gulp.src([
-    './node_modules/kth-style/sass/**',
-    './node_modules/kth-style/img/**'
-  ])
+  const sass = gulp.src('./node_modules/kth-style/sass/**')
     .pipe(gulp.dest('./public/css/kth-style/'))
+
+  const img = gulp.src('./node_modules/kth-style/img/**')
+    .pipe(gulp.dest('./public/img/kth-style/'))
+
+  return mergeStream(sass, img)
 }
 
 module.exports.moveBootstrap = function () {
