@@ -38,7 +38,7 @@ module.exports = function (globals, env) {
     const configPath = configPaths[getEnvKey(env)]
     const destinationPath = destinationPaths[getEnvKey(env)]
 
-    gulp.src('public/js/app/view/*.js')
+    return gulp.src('public/js/app/view/*.js')
       .pipe(print())
       .pipe(named())
       .pipe(plumber({
