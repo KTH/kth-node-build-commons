@@ -20,13 +20,13 @@
     "file-loader": "^0.8.5",
     "growly": "^1.3.0",
     "gulp": "^3.9.0",
-    "gulp-clean-css": "^2.0.6",
+    "gulp-clean-css": "^2.3.2",
     "gulp-if": "^2.0.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
     "gulp-print": "^2.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.0.4",
+    "gulp-sass": "^3.1.0",
     "source-map": "^3.1.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
@@ -41,7 +41,7 @@
     "webpack": "^1.14.0",
     "webpack-error-notification": "^0.1.6",
     "webpack-stream": "^3.2.0",
-    "yargs": "^6.5.0"
+    "yargs": "^6.6.0"
   },
   "author": "",
   "license": "MIT"
