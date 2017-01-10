@@ -4,8 +4,7 @@ const gulp = require('gulp')
 const { webpack, moveResources, sass, vendor } = require('./tasks')
 
 const globals = {
-  dirname: undefined,
-  startPath: undefined
+  dirname: undefined
 }
 
 const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome']
