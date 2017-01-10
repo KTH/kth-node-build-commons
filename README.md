@@ -17,44 +17,58 @@ Common use case is to import the built file in the client side code with webpack
 
 
 # Gulp
-The gulp file in this project is intended to be used in a project, to include the common shared tasks. A local gulpfile, referencing this gulpfile, should be included in each project
+This package contains a set of Gulp-tasks to be used when building node-web based projects. To allow the project maintainer more control over the build process these are exposed as functions that are wired up in the actual project. An example of this is done can be found in this package `gulpfile.js` which also provides backwards compatibility for exisiting projects.
 
-`Required: set dir name and start path in the web project`
-
-### Example: /path/to/web-project/gulpfile.js
-```
-	const gulp = require('gulp')
-	const commonsGulp = require('kth-node-build-commons/gulpfile')
-
-	commonsGulp.setDirname(__dirname)
-	commonsGulp.setStartpath('/places')
-
-	gulp.tasks = commonsGulp.gulp.tasks
-```
+The new way to use these gulp tasks has been implemented in node-web and will be pushed to projects through upstream merges.
 
 ### Minifying Knockout code
 In PROD and REF we use uglify to minify JavaScript. By specifying the option --preserve-comments we keep ALL comments that
 Webpack has bundled. This allows Knockout.js bindings to work properly.
 
-### Adding project specific tasks
-
-It's possible to create project specific tasks as usual with gulp, just make sure this is done _after_ gulp.tasks is overwritten.
-
 ### Example: /path/to/web-project/gulpfile.js
 
 ```
 const gulp = require('gulp')
-const commonsGulp = require('kth-node-build-commons/gulpfile')
 
-commonsGulp.setDirname(__dirname)
-commonsGulp.setStartpath('/places')
+const { webpack, moveResources, sass, vendor } = require('kth-node-build-commons').tasks
 
-gulp.tasks = commonsGulp.gulp.tasks
+const globals = {
+  dirname: __dirname
+}
 
-/* Place project specific tasks below */
-
-gulp.task('hello', function () {
-  console.log('hi!')
+// Deployment tasks
+gulp.task('webpackDeploy', function () {
+  webpack(globals, 'reference')()
+  webpack(globals, 'production')()
 })
 
+gulp.task('vendorDeploy', function () {
+  vendor('reference')()
+  vendor('production')()
+})
+
+// Development tasks
+gulp.task('webpack', webpack(globals))
+gulp.task('vendor', vendor())
+
+gulp.task('cleanKthStyle', moveResources.cleanKthStyle)
+gulp.task('moveResources', ['cleanKthStyle'], function () {
+  moveResources.cleanKthStyle()
+  moveResources.moveKthStyle()
+  moveResources.moveBootstrap()
+  moveResources.moveFontAwesome()
+})
+
+// Common tasks
+gulp.task('transpileSass', sass)
+
+gulp.task('build', ['moveResources', 'vendor', 'webpack', 'transpileSass'])
+
+gulp.task('deploy', ['moveResources', 'vendorDeploy', 'webpackDeploy', 'transpileSass'])
+
+gulp.task('watch', ['build'], function () {
+  gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])
+  gulp.watch(['./public/js/vendor.js'], ['vendor'])
+  gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
+})
 ```
