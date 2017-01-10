@@ -1,20 +1,18 @@
 const gulp = require('gulp')
 const del = require('del')
 
-module.exports.moveKthStyle = function (done) {
-  gulp.src(['./node_modules/kth-style/sass/**',
+module.exports.moveKthStyle = function () {
+  return gulp.src(['./node_modules/kth-style/sass/**',
             './node_modules/kth-style/img/**'])
     .pipe(gulp.dest('./public/css/kth-style/'))
-    .on('end', done)
 }
 
-module.exports.moveBootstrap = function (done) {
-  gulp.src(['./node_modules/bootstrap/dist/css/bootstrap.min.css',
+module.exports.moveBootstrap = function () {
+  return gulp.src(['./node_modules/bootstrap/dist/css/bootstrap.min.css',
             './node_modules/bootstrap/dist/css/bootstrap-theme.min.css'])
     .pipe(gulp.dest('./public/css/bootstrap/'))
     .src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff*,eof,svg}')
     .pipe(gulp.dest('./public/css/fonts/'))
-    .on('end', done)
 }
 
 module.exports.moveFontAwesome = function () {
