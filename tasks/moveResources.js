@@ -36,5 +36,7 @@ module.exports.moveFontAwesome = function () {
 }
 
 module.exports.cleanKthStyle = function () {
-  return del(['./public/css/kth-style/*', './public/img/kth-style/*'])
+  // Performing this sync because we want to make sure nothing else is started
+  // before this is completed
+  del.sync(['./public/css/kth-style/*', './public/img/kth-style/*'])
 }
