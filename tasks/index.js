@@ -3,5 +3,6 @@ module.exports = {
   moveResources: require('./moveResources'),
   sass: require('./sass'),
   vendor: require('./vendor'),
-  webpack: require('./webpack')
+  webpack: require('./webpack'),
+  clean: require('./clean')
 }

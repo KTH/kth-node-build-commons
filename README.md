@@ -31,7 +31,7 @@ Webpack has bundled. This allows Knockout.js bindings to work properly.
 const gulp = require('gulp')
 const mergeStream = require('merge-stream')
 
-const { webpack, moveResources, sass, vendor } = require('kth-node-build-commons').tasks
+const { webpack, moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks
 
 /**
  * Usage:
@@ -88,6 +88,8 @@ gulp.task('moveResources', ['cleanKthStyle'], function () {
   )
 })
 
+gulp.task('clean', clean)
+
 gulp.task('build:dev', ['moveResources', 'vendor', 'webpack'], function () {
   // Transpile SASS-files
   return sass()
@@ -105,3 +107,24 @@ gulp.task('watch', ['build:dev'], function () {
 })
 
 ```
+
+## Migration from < 1.5.x
+
+1 Update gulpfile.js to new style, you can copy gulpfile.js.in in this project
+
+2 Update kth-style dependency to 1.1.1 or compatible
+
+3 update static routes so they map like this
+
+```JavaScript
+// Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
+server.use(config.full.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
+// Map bundles build folder to static URL
+server.use(config.full.proxyPrefixPath.uri + '/static/js', express.static(`./dist/js/${getEnv()}`))
+// Map static content like images, css and js.
+server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist'))
+```
+
+4 Add additional steps and tasks to project specific gulpfile.js
+
+5 Ingore dist/ folder in .gitignore
