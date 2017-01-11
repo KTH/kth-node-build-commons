@@ -1,6 +1,6 @@
 {
   "name": "kth-node-build-commons",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A standard build and configuration module for Node.js applications.",
   "main": "index.js",
   "scripts": {
