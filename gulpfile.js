@@ -30,9 +30,9 @@ gulp.task('moveFontAwesome', moveResources.moveFontAwesome)
 
 gulp.task('transpileSass', sass)
 
-gulp.task('vendor:dev', vendor('dev'))
 gulp.task('vendor:prod', vendor('prod'))
 gulp.task('vendor:ref', vendor('ref'))
+gulp.task('vendor:dev', vendor('dev'))
 
 
 gulp.task('watch', function () {
