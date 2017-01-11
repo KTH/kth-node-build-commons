@@ -4,18 +4,19 @@ const named = require('vinyl-named')
 const print = require('gulp-print')
 const webpack = require('webpack-stream')
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
+const mergeStream = require('merge-stream')
 
 const { isDevelopment, getEnvKey, onError } = require('./common')
 
 const destinationPaths = {
-  'dev': 'bundles/dev',
-  'ref': 'bundles/ref',
-  'prod': 'bundles/prod'
+  'dev': 'dist/js/dev',
+  'ref': 'dist/js/ref',
+  'prod': 'dist/js/prod'
 }
 
 module.exports = function (env) {
   return function () {
-    return gulp.src('./public/js/vendor.js')
+    const vendor = gulp.src('./public/js/vendor.js')
       .pipe(print())
       .pipe(named())
       .pipe(plumber({
@@ -26,5 +27,10 @@ module.exports = function (env) {
         plugins: !isDevelopment(env) ? [ new UglifyJsPlugin() ] : undefined
       }))
       .pipe(gulp.dest(destinationPaths[getEnvKey(env)]))
+
+    const components = gulp.src('./public/js/components/**')
+      .pipe(gulp.dest('dist/js/components'))
+
+    return mergeStream(vendor, components)
   }
 }

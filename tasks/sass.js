@@ -3,27 +3,33 @@ const gulp = require('gulp')
 const sass = require('gulp-sass')
 const sourcemaps = require('gulp-sourcemaps')
 const gulpIf = require('gulp-if')
+const path = require('path')
 const mergeStream = require('merge-stream')
 
 const { isDevelopment } = require('./common')
 
-module.exports = function () {
+module.exports = function (globals) {
   gulpUtil.log(gulpUtil.colors.green('Running Sass transpile'))
+  gulpUtil.log(gulpUtil.colors.blue('includePaths: ' + path.join(globals.dirname || '', 'node_modules')))
+
   const localCss = gulp.src(['./public/css/!(_)*.scss'])
     .pipe(gulpIf(isDevelopment(), sourcemaps.init()))
     .pipe(sass({
-      outputStyle: 'compressed'
-    }))
+      outputStyle: 'compressed',
+      includePaths: path.join(globals.dirname || '', 'node_modules')
+    }).on('error', sass.logError))
     .pipe(gulpIf(isDevelopment(), sourcemaps.write('.')))
-    .pipe(gulp.dest('./public/css'))
+    .pipe(gulp.dest('dist/css'))
 
-  const kthStyleCss = gulp.src(['./public/css/kth-style/!(_)*.scss'])
+  const kthStylePath = path.join(globals.dirname || '', 'node_modules/kth-style/sass/*.scss')
+  const kthStyleCss = gulp.src([kthStylePath])
     .pipe(gulpIf(isDevelopment(), sourcemaps.init()))
     .pipe(sass({
-      outputStyle: 'compressed'
-    }))
+      outputStyle: 'compressed',
+      includePaths: path.join(globals.dirname || '', 'node_modules')
+    }).on('error', sass.logError))
     .pipe(gulpIf(isDevelopment(), sourcemaps.write('.')))
-    .pipe(gulp.dest('./public/css/kth-style'))
+    .pipe(gulp.dest('./dist/css/kth-style'))
 
   return mergeStream(localCss, kthStyleCss)
 }

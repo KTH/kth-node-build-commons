@@ -18,9 +18,9 @@ const configPaths = {
 }
 
 const destinationPaths = {
-  dev: 'bundles/dev/app/view/',
-  ref: 'bundles/ref/app/view/',
-  prod: 'bundles/prod/app/view/'
+  dev: 'dist/js/dev/app/view/',
+  ref: 'dist/js/ref/app/view/',
+  prod: 'dist/js/prod/app/view/'
 }
 
 function getUglifyOptions () {
