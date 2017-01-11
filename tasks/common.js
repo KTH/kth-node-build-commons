@@ -1,17 +1,18 @@
 const gulpUtil = require('gulp-util')
 const growly = require('growly')
 const notify = require('gulp-notify')
+const { safeGet } = require('safe-utils')
 
 const isProduction = function (env) {
-  return env.startsWith('prod') || gulpUtil.env.production || process.env.NODE_ENV && process.env.NODE_ENV.startsWith('prod')
+  return safeGet(() => env.startsWith('prod')) || gulpUtil.env.production || safeGet(() => process.env.NODE_ENV.startsWith('prod'))
 }
 
 const isReference = function (env) {
-  return env.startsWith('ref') || gulpUtil.env.reference || process.env.NODE_ENV && process.env.NODE_ENV.startsWith('ref')
+  return safeGet(() => env.startsWith('ref')) || gulpUtil.env.reference || safeGet(() => process.env.NODE_ENV.startsWith('ref'))
 }
 
 const isDevelopment = function (env) {
-  return env.startsWith('dev') || !isProduction(env) && !isReference(env)
+  return safeGet(() => env.startsWith('dev')) || !isProduction(env) && !isReference(env)
 }
 
 const getEnvKey = function (env) {
