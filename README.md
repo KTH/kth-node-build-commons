@@ -30,11 +30,11 @@ Use `gulpfile.js.in` in this project as a template for your project specific tem
 
 ## Migration from < 1.5.x
 
-1 Update gulpfile.js to new style, you can copy gulpfile.js.in in this project
+1. Update gulpfile.js to new style, you can copy gulpfile.js.in in this project
 
-2 Update kth-style dependency to 1.1.1 or compatible
+2. Update kth-style dependency to 1.1.1 or compatible
 
-3 update static routes so they map like this
+3. update static routes so they map like this
 
 ```JavaScript
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
@@ -45,7 +45,7 @@ server.use(config.full.proxyPrefixPath.uri + '/static/js', express.static(`./dis
 server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist'))
 ```
 
-4 Change imports in SASS-files that reference kth-style from:
+4. Change imports in SASS-files that reference kth-style from:
 
 	@import "kth-style/variables/colors";
 
@@ -53,17 +53,17 @@ to (adding */sass* to match path in kth-style-package)
 
 	@import "kth-style/sass/variables/colors";
 
-5 Add additional steps and tasks to project specific gulpfile.js
+5. Add additional steps and tasks to project specific gulpfile.js
 
-6 Ingore dist/ folder in .gitignore
+6. Ignore dist/ folder in .gitignore
 
-7 You can remove the dependency on `node-sass-middleware` from package.json and:
+7. You can remove the dependency on `node-sass-middleware` from package.json and:
 
 	- remove `server/init/middleware/sass.js` and the corresponding require in `server/init/middleware/index.js`
 
-8 You should move `nodemon` from optionalDependencies to devDependencies
+8. You should move `nodemon` from optionalDependencies to devDependencies
 
-9 Make sure you have the following npm script commands for consistency:
+9. Make sure you have the following npm script commands for consistency:
 
 ```
 "webpackProd": "npm run build",
@@ -76,4 +76,4 @@ to (adding */sass* to match path in kth-style-package)
 
 NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
 
-10 Add `dist` to `.gitignore`
+10. Add the target directory `dist` to `.gitignore`
