@@ -47,19 +47,21 @@ server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist')
 
 4. Change imports in SASS-files that reference kth-style from:
 
+```
 	@import "kth-style/variables/colors";
+```
 
-to (adding */sass* to match path in kth-style-package)
+  to (adding */sass* to match path in kth-style-package)
 
+```
 	@import "kth-style/sass/variables/colors";
+```
 
 5. Add additional steps and tasks to project specific gulpfile.js
 
 6. Ignore dist/ folder in .gitignore
 
-7. You can remove the dependency on `node-sass-middleware` from package.json and:
-
-	- remove `server/init/middleware/sass.js` and the corresponding require in `server/init/middleware/index.js`
+7. You can remove the dependency on `node-sass-middleware` from package.json and remove `server/init/middleware/sass.js` and the corresponding require in `server/init/middleware/index.js`
 
 8. You should move `nodemon` from optionalDependencies to devDependencies
 
@@ -74,6 +76,6 @@ to (adding */sass* to match path in kth-style-package)
 "start": "gulp build:dev --preserve-comments && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
 ```
 
-NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
+  NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
 
 10. Add the target directory `dist` to `.gitignore`
