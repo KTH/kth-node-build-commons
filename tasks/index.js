@@ -1,8 +1,11 @@
-module.exports = {
-  common: require('./common'),
-  moveResources: require('./moveResources'),
-  sass: require('./sass'),
-  vendor: require('./vendor'),
-  webpack: require('./webpack'),
-  clean: require('./clean')
+module.exports = function (globals) {
+  return {
+    common: require('./common'),
+    moveResources: require('./moveResources')(globals),
+    sass: require('./sass')(globals),
+    vendor: require('./vendor')(globals),
+    webpack: require('./webpack')(globals),
+    clean: require('./clean')(globals)
+  }
 }
+

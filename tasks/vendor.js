@@ -14,8 +14,8 @@ const destinationPaths = {
   'prod': 'dist/js/prod'
 }
 
-module.exports = function (env) {
-  return function () {
+module.exports = function (globals) {
+  return function (env) {
     const vendor = gulp.src('./public/js/vendor.js')
       .pipe(print())
       .pipe(named())

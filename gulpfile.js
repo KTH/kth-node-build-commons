@@ -1,11 +1,10 @@
 'use strict'
 const gulp = require('gulp')
 
-const { webpack, moveResources, sass, vendor } = require('./tasks')
-
 const globals = {
   dirname: undefined
 }
+const { webpack, moveResources, sass, vendor } = require('./tasks')(globals)
 
 const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome']
 
@@ -17,9 +16,9 @@ const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome']
  *
  */
 
-gulp.task('webpack:prod', webpack(globals, 'prod'))
-gulp.task('webpack:ref', webpack(globals, 'ref'))
-gulp.task('webpack:dev', webpack(globals, 'dev'))
+gulp.task('webpack:prod', () => webpack('prod'))
+gulp.task('webpack:ref', () => webpack('ref'))
+gulp.task('webpack:dev', () => webpack('dev'))
 
 gulp.task('moveAssets', assets)
 
@@ -30,9 +29,9 @@ gulp.task('moveFontAwesome', moveResources.moveFontAwesome)
 
 gulp.task('transpileSass', sass)
 
-gulp.task('vendor:prod', vendor('prod'))
-gulp.task('vendor:ref', vendor('ref'))
-gulp.task('vendor:dev', vendor('dev'))
+gulp.task('vendor:prod', () => vendor('prod'))
+gulp.task('vendor:ref', () => vendor('ref'))
+gulp.task('vendor:dev', () => vendor('dev'))
 
 
 gulp.task('watch', function () {
