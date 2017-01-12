@@ -24,92 +24,9 @@ The new way to use these gulp tasks has been implemented in node-web and will be
 In PROD and REF we use uglify to minify JavaScript. By specifying the option --preserve-comments we keep ALL comments that
 Webpack has bundled. This allows Knockout.js bindings to work properly.
 
-### Example: /path/to/web-project/gulpfile.js
+### gulpfile.js
 
-```
-'use strict'
-const gulp = require('gulp')
-const mergeStream = require('merge-stream')
-
-const globals = {
-  dirname: __dirname
-}
-
-const { webpack, moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
-
-/**
- * Usage:
- *
- *  One-time build of browser dependencies for development
- *
- *    $ gulp build:dev
- *
- *  Continuous re-build during development
- *
- *    $ gulp watch
- *
- *  One-time build for Deployment (Gulp tasks will check NODE_ENV if no option is passed)
- *
- *    $ gulp build [--production | --reference]
- *
- *  Remove the generated files
- *
- *    $ gulp clean
- *
- */
-
-// *** Deployment helper tasks ***
-gulp.task('webpackDeploy', function () {
-  // Returning merged stream so Gulp knows when async operations have finished
-  return mergeStream(
-    webpack('reference'),
-    webpack('production')
-  )
-})
-
-gulp.task('vendorDeploy', function () {
-  // Returning merged stream so Gulp knows when async operations have finished
-  return mergeStream(
-    vendor('reference'),
-    vendor('production')
-  )
-})
-
-// *** Development helper tasks ***
-gulp.task('webpack', webpack)
-gulp.task('vendor', vendor
-
-gulp.task('cleanKthStyle', moveResources.cleanKthStyle)
-gulp.task('moveResources', ['cleanKthStyle'], function () {
-  // Returning merged stream so Gulp knows when async operations have finished
-  return mergeStream(
-    moveResources.moveKthStyle(),
-    moveResources.moveBootstrap(),
-    moveResources.moveFontAwesome()
-  )
-})
-
-gulp.task('transpileSass', () => sass())
-
-/**
- *
- *  Public tasks used by developer:
- *
- */
-
-gulp.task('clean', clean)
-
-gulp.task('build:dev', ['moveResources', 'vendor', 'webpack'], () => sass())
-
-gulp.task('build', ['moveResources', 'vendorDeploy', 'webpackDeploy'], () => sass())
-
-gulp.task('watch', ['build:dev'], function () {
-  gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])
-  gulp.watch(['./public/js/vendor.js'], ['vendor'])
-  gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
-})
-
-```
+Use `gulpfile.js.in` in this project as a template for your project specific template file. In basic cases you won't need to add anything to that file.
 
 ## Migration from < 1.5.x
 
@@ -128,6 +45,35 @@ server.use(config.full.proxyPrefixPath.uri + '/static/js', express.static(`./dis
 server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist'))
 ```
 
-4 Add additional steps and tasks to project specific gulpfile.js
+4 Change imports in SASS-files that reference kth-style from:
 
-5 Ingore dist/ folder in .gitignore
+	@import "kth-style/variables/colors";
+
+to (adding */sass* to match path in kth-style-package)
+
+	@import "kth-style/sass/variables/colors";
+
+5 Add additional steps and tasks to project specific gulpfile.js
+
+6 Ingore dist/ folder in .gitignore
+
+7 You can remove the dependency on `node-sass-middleware` from package.json and:
+
+	- remove `server/init/middleware/sass.js` and the corresponding require in `server/init/middleware/index.js`
+
+8 You should move `nodemon` from optionalDependencies to devDependencies
+
+9 Make sure you have the following npm script commands for consistency:
+
+```
+"webpackProd": "npm run build",
+"vendorProd": "echo \"Deprecated, use 'npm run build' \"",
+"buildConfig": "cross-env NODE_ENV=development NODE_PATH=. node ./buildConfig.js",
+"postinstall": "npm run buildConfig",
+"build": "gulp build --preserve-comments",
+"start": "gulp build:dev --preserve-comments && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
+```
+
+NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
+
+10 Add `dist` to `.gitignore`
