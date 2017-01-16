@@ -59,7 +59,7 @@ server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist')
 
 5. Add additional steps and tasks to project specific gulpfile.js
 
-6. Ignore dist/ folder in .gitignore
+6. Ignore the target directory `dist` to `.gitignore`
 
 7. You can remove the dependency on `node-sass-middleware` from package.json and remove `server/init/middleware/sass.js` and the corresponding require in `server/init/middleware/index.js`
 
@@ -78,4 +78,4 @@ server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist')
 
   NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
 
-10. Add the target directory `dist` to `.gitignore`
+10. Add `merge-stream` to `package.json`
