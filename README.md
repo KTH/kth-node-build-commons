@@ -34,7 +34,7 @@ Use `gulpfile.js.in` in this project as a template for your project specific tem
 
 2. Update kth-style dependency to 1.1.1 or compatible
 
-3. update static routes so they map like this
+3. update static routes (probably in staticFiles.js) so they map like this
 
 ```JavaScript
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
