@@ -1,6 +1,4 @@
 'use strict'
-
-const webpack = require('webpack')
 var deepAssign = require('deep-assign')
 
 /**
@@ -9,33 +7,43 @@ var deepAssign = require('deep-assign')
  */
 
 const webpackConfig = {
-  resolve: {
-  },
   externals: {
     jquery: 'jQuery',
     knockout: 'ko'
   },
   plugins: [],
   module: {
-    loaders: [{
-      test: /\.html$/,
-      loader: 'html'
+    rules: [{
+      resource: {
+        test: /\.html$/
+      },
+      use: ['html']
     }, {
-      test: /\.js?$/,
-      exclude: /(node_modules)/,
-      loader: 'babel',
-      query: {
+      resource: {
+        test: /\.js?$/,
+        exclude: /(node_modules)/
+      },
+      use: [{
+        loader: 'babel',
+        options: {
+          presets: [ 'es2015', { 'modules': false } ]
+        }
+      }],
+      query: { // TODO: Check this
         presets: ['es2015']
       }
     }, {
-      test: /\.css$/,
-      loader: 'style-loader!css-loader'
+      resource: {
+        test: /\.css$/
+      },
+      use: ['style-loader!css-loader']
     }, {
-      test: /\.(png|woff|woff2|eot|ttf|svg)(\?.*)?$/,
-      loader: 'url-loader?limit=100000'
+      resource: {
+        test: /\.(png|woff|woff2|eot|ttf|svg)(\?.*)?$/
+      },
+      use: ['url-loader?limit=100000']
     }]
   }
-
 }
 
 
