@@ -30,7 +30,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
     "html-loader": "^0.4.3",
-    "kth-node-configuration": "KTH/kth-node-configuration.git#v1.0.0",
+    "kth-node-configuration": "KTH/kth-node-configuration.git#v1.3.1",
     "merge-stream": "^1.0.1",
     "path": "^0.12.7",
     "safe-utils": "^0.1.1",
