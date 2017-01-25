@@ -5,7 +5,8 @@ const print = require('gulp-print')
 const argv = require('yargs').argv
 const path = require('path')
 const getWebpackJSConfig = require('../webpack.config')
-const webpack = require('webpack-stream')
+const gulpWebpack = require('webpack-stream')
+const webpack2 = require('webpack')
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 
 const { isDevelopment, getEnvKey, onError } = require('./common')
@@ -33,22 +34,20 @@ module.exports = function (globals) {
       .pipe(plumber({
         errorHandler: onError
       }))
-      .pipe(webpack(getWebpackJSConfig({
+      .pipe(gulpWebpack(getWebpackJSConfig({
         resolve: {
           alias: {
             config: path.join(globals.dirname, configPath)
           }
         },
-        // Generate source maps for development
         devtool: isDevelopment(env) ? 'source-map' : undefined,
-        // Perform uglify, respecting preserve-comments flag, if not development
         plugins: !isDevelopment(env) ? [ new UglifyJsPlugin({
           sourceMap: true,
           output: {
             comments: argv['preserve-comments']
           }
         }) ] : undefined
-      })))
+      }), webpack2)) // <- passing webpack 2 to webpack-stream because it is bundled with an older version
       .pipe(gulp.dest(destinationPath))
   }
 }
