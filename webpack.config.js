@@ -15,30 +15,13 @@ const webpackConfig = {
   module: {
     rules: [{
       resource: {
-        test: /\.html$/
-      },
-      use: ['html']
-    }, {
-      resource: {
         test: /\.js?$/,
         exclude: /(node_modules)/
       },
       use: [{
         loader: 'babel-loader',
-        query: { // TODO: Check this
-          presets: ['es2015']
-        }
+        options: { presets: ['es2015'] }
       }]
-    }, {
-      resource: {
-        test: /\.css$/
-      },
-      use: ['style-loader!css-loader']
-    }, {
-      resource: {
-        test: /\.(png|woff|woff2|eot|ttf|svg)(\?.*)?$/
-      },
-      use: ['url-loader?limit=100000']
     }]
   }
 }
