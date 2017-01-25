@@ -24,7 +24,7 @@ module.exports = function (globals) {
       }))
       .pipe(webpack({
         devtool: isDevelopment(env) ? 'source-map' : undefined,
-        plugins: !isDevelopment(env) ? [ new UglifyJsPlugin() ] : undefined
+        plugins: !isDevelopment(env) ? [ new UglifyJsPlugin({ sourceMap: true }) ] : undefined
       }))
       .pipe(gulp.dest(destinationPaths[getEnvKey(env)]))
 

@@ -2,14 +2,13 @@ const gulp = require('gulp')
 const plumber = require('gulp-plumber')
 const named = require('vinyl-named')
 const print = require('gulp-print')
-const gulpIf = require('gulp-if')
 const argv = require('yargs').argv
-const uglify = require('gulp-uglify')
 const path = require('path')
 const getWebpackJSConfig = require('../webpack.config')
 const webpack = require('webpack-stream')
+const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 
-const { isProduction, isDevelopment, getEnvKey, onError } = require('./common')
+const { isDevelopment, getEnvKey, onError } = require('./common')
 
 const configPaths = {
   dev: `public/js/app/config-dev.js`,
@@ -21,16 +20,6 @@ const destinationPaths = {
   dev: 'dist/js/dev/app/view/',
   ref: 'dist/js/ref/app/view/',
   prod: 'dist/js/prod/app/view/'
-}
-
-function getUglifyOptions () {
-  if (argv['preserve-comments']) {
-    return {
-      preserveComments: 'all'
-    }
-  } else {
-    return undefined
-  }
 }
 
 module.exports = function (globals) {
@@ -50,9 +39,16 @@ module.exports = function (globals) {
             config: path.join(globals.dirname, configPath)
           }
         },
-        devtool: isDevelopment(env) ? 'source-map' : undefined
+        // Generate source maps for development
+        devtool: isDevelopment(env) ? 'source-map' : undefined,
+        // Perform uglify, respecting preserve-comments flag, if not development
+        plugins: !isDevelopment(env) ? [ new UglifyJsPlugin({
+          sourceMap: true,
+          output: {
+            comments: argv['preserve-comments']
+          }
+        }) ] : undefined
       })))
-      .pipe(gulpIf(isProduction(env), uglify(getUglifyOptions())))
       .pipe(gulp.dest(destinationPath))
   }
 }

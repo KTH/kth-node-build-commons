@@ -24,14 +24,11 @@ const webpackConfig = {
         exclude: /(node_modules)/
       },
       use: [{
-        loader: 'babel',
-        options: {
-          presets: [ 'es2015', { 'modules': false } ]
+        loader: 'babel-loader',
+        query: { // TODO: Check this
+          presets: ['es2015']
         }
-      }],
-      query: { // TODO: Check this
-        presets: ['es2015']
-      }
+      }]
     }, {
       resource: {
         test: /\.css$/
