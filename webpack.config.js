@@ -16,7 +16,7 @@ const webpackConfig = {
     rules: [{
       resource: {
         test: /\.js?$/,
-        exclude: /(node_modules)/
+        exclude: /(node_modules)/ // Is this a bad idea? It prevents us from using ES2015 in node modules
       },
       use: [{
         loader: 'babel-loader',
