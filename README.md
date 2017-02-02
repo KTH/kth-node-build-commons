@@ -28,6 +28,19 @@ Webpack has bundled. This allows Knockout.js bindings to work properly.
 
 Use `gulpfile.js.in` in this project as a template for your project specific template file. In basic cases you won't need to add anything to that file.
 
+## Transpiling es2015 etc. with babel
+
+If you create a build step to transpile JS, don't use `.babelrc`, add settings to `package.json` to allow transpiling to work on linked packages (npm link):
+
+```
+  "// babel": "Babel presets in package.json so they are applied to symlinked packages https://github.com/babel/babel-loader/issues/149",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+```
+
 ## Migration from < 1.5.x
 
 1. Update gulpfile.js to new style, you can copy gulpfile.js.in in this project
@@ -79,3 +92,14 @@ server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist')
   NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
 
 10. Add `merge-stream` to `package.json`
+
+11. Remove `.babelrc` and add settings to `package.json` to allow transpiling to work on linked packages (npm link):
+
+```
+  "// babel": "Babel presets in package.json so they are applied to symlinked packages https://github.com/babel/babel-loader/issues/149",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+```
