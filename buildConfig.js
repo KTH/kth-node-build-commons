@@ -4,10 +4,10 @@ const path = require('path')
 let paths
 
 module.exports = {
-  setPaths(_paths) {
+  setPaths (_paths) {
     paths = _paths
   },
-  createFile(configBasePath) {
+  createFile (configBasePath) {
     /*
       This builds the file public/js/app/config.js with
       safe configuration content
