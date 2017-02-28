@@ -6,7 +6,7 @@ const globals = {
 }
 const { webpack, moveResources, sass, vendor } = require('./tasks')(globals)
 
-const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome']
+const assets = ['moveKthStyle', 'moveBootstrap', 'moveFontAwesome', 'moveLocalFonts']
 
 /**
  *
@@ -26,6 +26,7 @@ gulp.task('clean', moveResources.cleanKthStyle)
 gulp.task('moveKthStyle', ['clean'], moveResources.moveKthStyle)
 gulp.task('moveBootstrap', moveResources.moveBootstrap)
 gulp.task('moveFontAwesome', moveResources.moveFontAwesome)
+gulp.task('moveLocalFonts', moveResources.moveLocalFonts)
 
 gulp.task('transpileSass', sass)
 
