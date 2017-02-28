@@ -4,7 +4,7 @@
   "description": "A standard build and configuration module for Node.js applications.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/*",
     "postversion": "git push && git push --tags"
   },
   "repository": {
@@ -45,5 +45,10 @@
     "yargs": "^6.6.0"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "standard": "^8.6.0"
+  }
 }
