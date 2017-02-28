@@ -34,7 +34,6 @@ gulp.task('vendor:prod', () => vendor('prod'))
 gulp.task('vendor:ref', () => vendor('ref'))
 gulp.task('vendor:dev', () => vendor('dev'))
 
-
 gulp.task('watch', function () {
   return gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack:dev'])
 })

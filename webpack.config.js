@@ -1,6 +1,5 @@
 'use strict'
 
-const webpack = require('webpack')
 var deepAssign = require('deep-assign')
 
 /**
@@ -37,7 +36,6 @@ const webpackConfig = {
   }
 
 }
-
 
 module.exports = function (options) {
   // Create a config object by doing a deep merge, options override webpackConfig
