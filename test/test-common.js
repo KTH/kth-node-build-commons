@@ -42,5 +42,18 @@ describe('Environment variables', function () {
 
   it('should not give false positives for development', function () {
     expect(common.isDevelopment()).to.equal(false) // weird behaviour, yes, comes from the definition as neither reference, nor production
+    process.env['NODE_ENV'] = ''
+  })
+
+  it('should return prod for env key production', function () {
+    expect(common.getEnvKey('production')).to.equal('prod')
+  })
+
+  it('should return ref for env key production', function () {
+    expect(common.getEnvKey('reference')).to.equal('ref')
+  })
+
+  it('should return dev for env key development', function () {
+    expect(common.getEnvKey('development')).to.equal('dev')
   })
 })
