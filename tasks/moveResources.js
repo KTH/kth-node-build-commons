@@ -36,6 +36,13 @@ const moveFontAwesome = function (globals) {
   }
 }
 
+const moveLocalFonts = function (globals) {
+  return function () {
+    const fonts = gulp.src('./public/fonts/**').pipe(gulp.dest('dist/fonts'))
+    return fonts
+  }
+}
+
 const cleanKthStyle = function (globals) {
   return function () {
     // Performing this sync because we want to make sure nothing else is started
@@ -49,6 +56,7 @@ module.exports = function (globals) {
     moveKthStyle: moveKthStyle(globals),
     moveBootstrap: moveBootstrap(globals),
     moveFontAwesome: moveFontAwesome(globals),
+    moveLocalFonts: moveLocalFonts(globals),
     cleanKthStyle: cleanKthStyle(globals)
   }
 }
