@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/*",
+    "codecheck": "standard",
+    "preversion": "npm run codecheck && npm run test",
     "postversion": "git push && git push --tags"
   },
   "repository": {
