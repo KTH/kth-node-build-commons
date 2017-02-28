@@ -59,6 +59,7 @@ gulp.task('moveResources', function () {
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),
     moveResources.moveFontAwesome(),
+    moveResources.moveLocalFonts(),
     // Move project image files
     gulp.src('./public/img/*')
       .pipe(gulp.dest('dist/img'))
