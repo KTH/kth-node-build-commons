@@ -4,7 +4,7 @@ const mergeStream = require('merge-stream')
 
 const moveKthStyle = function (globals) {
   return function () {
-    return gulp.src('./node_modules/kth-style/dist/img/**')
+    return gulp.src('./node_modules/kth-style/img/**')
       .pipe(gulp.dest('dist/img/kth-style'))
   }
 }
@@ -17,7 +17,7 @@ const moveBootstrap = function (globals) {
     ])
       .pipe(gulp.dest('dist/css/bootstrap'))
 
-    const fonts = gulp.src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff*,eof,svg}')
+    const fonts = gulp.src('./node_modules/bootstrap/fonts/**/*.{ttf,woff*,eof,svg}')
       .pipe(gulp.dest('dist/css/fonts'))
 
     return mergeStream(bootstrap, fonts)

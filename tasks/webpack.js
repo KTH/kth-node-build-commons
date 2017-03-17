@@ -2,15 +2,15 @@ const gulp = require('gulp')
 const plumber = require('gulp-plumber')
 const named = require('vinyl-named')
 const print = require('gulp-print')
-const gulpIf = require('gulp-if')
 const argv = require('yargs').argv
-const uglify = require('gulp-uglify')
 const path = require('path')
 const mergeStream = require('merge-stream')
 const getWebpackJSConfig = require('../webpack.config')
-const webpack = require('webpack-stream')
+const gulpWebpack = require('webpack-stream')
+const webpack2 = require('webpack')
+const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 
-const { isProduction, isDevelopment, getEnvKey, onError } = require('./common')
+const { isDevelopment, getEnvKey, onError } = require('./common')
 
 const configPaths = {
   dev: `public/js/app/config-dev.js`,
@@ -24,16 +24,6 @@ const destinationPaths = {
   prod: 'dist/js/prod/app/view/'
 }
 
-function getUglifyOptions () {
-  if (argv['preserve-comments']) {
-    return {
-      preserveComments: 'all'
-    }
-  } else {
-    return undefined
-  }
-}
-
 module.exports = function (globals) {
   return function (env) {
     const configPath = configPaths[getEnvKey(env)]
@@ -45,15 +35,20 @@ module.exports = function (globals) {
       .pipe(plumber({
         errorHandler: onError
       }))
-      .pipe(webpack(getWebpackJSConfig({
+      .pipe(gulpWebpack(getWebpackJSConfig({
         resolve: {
           alias: {
             config: path.join(globals.dirname, configPath)
           }
         },
-        devtool: isDevelopment(env) ? 'source-map' : undefined
-      })))
-      .pipe(gulpIf(isProduction(env), uglify(getUglifyOptions())))
+        devtool: isDevelopment(env) ? 'source-map' : undefined,
+        plugins: !isDevelopment(env) ? [ new UglifyJsPlugin({
+          sourceMap: true,
+          output: {
+            comments: argv['preserve-comments']
+          }
+        }) ] : undefined
+      }), webpack2)) // <- passing webpack 2 to webpack-stream because it is bundled with an older version
       .pipe(gulp.dest(destinationPath))
     const components = gulp.src('./public/js/components/**')
       .pipe(webpack(getWebpackJSConfig({

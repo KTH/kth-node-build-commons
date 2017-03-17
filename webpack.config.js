@@ -1,5 +1,4 @@
 'use strict'
-
 var deepAssign = require('deep-assign')
 
 /**
@@ -8,33 +7,23 @@ var deepAssign = require('deep-assign')
  */
 
 const webpackConfig = {
-  resolve: {
-  },
   externals: {
     jquery: 'jQuery',
     knockout: 'ko'
   },
   plugins: [],
   module: {
-    loaders: [{
-      test: /\.html$/,
-      loader: 'html'
-    }, {
-      test: /\.js?$/,
-      exclude: /(node_modules)/,
-      loader: 'babel',
-      query: {
-        presets: ['es2015']
-      }
-    }, {
-      test: /\.css$/,
-      loader: 'style-loader!css-loader'
-    }, {
-      test: /\.(png|woff|woff2|eot|ttf|svg)(\?.*)?$/,
-      loader: 'url-loader?limit=100000'
+    rules: [{
+      resource: {
+        test: /\.js?$/,
+        exclude: /(node_modules)/ // Is this a bad idea? It prevents us from using ES2015 in node modules
+      },
+      use: [{
+        loader: 'babel-loader',
+        options: { presets: ['es2015'] }
+      }]
     }]
   }
-
 }
 
 module.exports = function (options) {
