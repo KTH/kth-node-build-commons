@@ -29,7 +29,7 @@ module.exports = {
         { 'name': 'prod', path: path.join(configBasePath, '/prodSettings') },
         { 'name': 'dev', path: path.join(configBasePath, '/devSettings') }
       ]
-      
+
       optionalSettings.forEach((item) => {
         try {
           tmpConfig[item.name] = require(item.path)
@@ -41,7 +41,7 @@ module.exports = {
       // Now we have added these settings and can generate the config-xxx.js file
       const config = configurator(tmpConfig)
       const safeConf = config.safe()
-      
+
       const fs = require('fs')
       const stream = fs.createWriteStream(`public/js/app/config-${env}.js`)
 
