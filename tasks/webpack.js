@@ -4,7 +4,6 @@ const named = require('vinyl-named')
 const print = require('gulp-print')
 const argv = require('yargs').argv
 const path = require('path')
-const mergeStream = require('merge-stream')
 const getWebpackJSConfig = require('../webpack.config')
 const gulpWebpack = require('webpack-stream')
 const webpack2 = require('webpack')
@@ -29,7 +28,7 @@ module.exports = function (globals) {
     const configPath = configPaths[getEnvKey(env)]
     const destinationPath = destinationPaths[getEnvKey(env)]
 
-    const view = gulp.src('public/js/app/view/*.js')
+    return gulp.src('public/js/app/view/*.js')
       .pipe(print())
       .pipe(named())
       .pipe(plumber({
@@ -50,18 +49,5 @@ module.exports = function (globals) {
         }) ] : undefined
       }), webpack2)) // <- passing webpack 2 to webpack-stream because it is bundled with an older version
       .pipe(gulp.dest(destinationPath))
-    const components = gulp.src('./public/js/components/**')
-      .pipe(webpack(getWebpackJSConfig({
-        resolve: {
-          alias: {
-            config: path.join(globals.dirname, configPath)
-          }
-        },
-        devtool: isDevelopment(env) ? 'source-map' : undefined
-      })))
-      .pipe(gulpIf(isProduction(env), uglify({preserveComments: 'all'})))
-      .pipe(gulp.dest('dist/js/components'))
-
-    return mergeStream(view, components)
   }
 }
