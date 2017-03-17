@@ -1,5 +1,6 @@
 # kth-node-build-commons
 [![Build Status](https://travis-ci.org/KTH/kth-node-build-commons.svg?branch=master)](https://travis-ci.org/KTH/kth-node-build-commons)
+
 This package is intended to be imported in web projects to handle standard builds in each project. It consists of a few files, but no main file.
 
 # buildConfig.js
