@@ -13,20 +13,22 @@ const webpackConfig = {
   },
   plugins: [],
   module: {
-    rules: [{
-      resource: {
-        test: /\.js?$/,
-        exclude: /(node_modules)/ // Is this a bad idea? It prevents us from using ES2015 in node modules
+    rules: [
+      {
+        resource: {
+          test: /\.js?$/,
+          exclude: /(node_modules)/ // Is this a bad idea? It prevents us from using ES2015 in node modules
+        },
+        use: [{
+          loader: 'babel-loader',
+          options: { presets: ['es2015'] }
+        }]
       },
-      use: [{
-        loader: 'babel-loader',
-        options: { presets: ['es2015'] }
-      }]
-    },
-    {
-      test: /\.html$/,
-      loader: 'html-loader'
-    }]
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      }
+    ]
   }
 }
 
