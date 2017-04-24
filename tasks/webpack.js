@@ -11,7 +11,7 @@ const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 const { isDevelopment, onError } = require('./common')
 
 module.exports = function (globals) {
-  return function (env) {
+  return function () {
     const destinationPath = 'dist/js'
 
     return gulp.src('public/js/app/view/*.js')
