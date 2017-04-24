@@ -12,7 +12,7 @@ const { isDevelopment, onError } = require('./common')
 
 module.exports = function (globals) {
   return function () {
-    const destinationPath = 'dist/js'
+    const destinationPath = 'dist/js/app/view'
 
     return gulp.src('public/js/app/view/*.js')
       .pipe(print())
