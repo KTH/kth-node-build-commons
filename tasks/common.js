@@ -1,7 +1,5 @@
-const gulpUtil = require('gulp-util')
 const growly = require('growly')
 const notify = require('gulp-notify')
-const { safeGet } = require('safe-utils')
 
 function isDevelopment () {
   return process.env.NODE_ENV !== 'production'
@@ -22,5 +20,5 @@ const onError = function (err) {
 
 module.exports = {
   isDevelopment: isDevelopment,
-  onError: onError,
+  onError: onError
 }

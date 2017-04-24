@@ -3,7 +3,6 @@ const plumber = require('gulp-plumber')
 const named = require('vinyl-named')
 const print = require('gulp-print')
 const argv = require('yargs').argv
-const path = require('path')
 const getWebpackJSConfig = require('../webpack.config')
 const gulpWebpack = require('webpack-stream')
 const webpack2 = require('webpack')
