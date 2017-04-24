@@ -8,6 +8,7 @@ module.exports = {
     paths = _paths
   },
   createFile (configBasePath) {
+    console.warn('buildConfig is deprecated and will be removed, use browserConfig endpoint to pass configuration to browser')
     /*
       This builds the file public/js/app/config.js with
       safe configuration content

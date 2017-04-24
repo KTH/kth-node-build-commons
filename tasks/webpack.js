@@ -9,24 +9,11 @@ const gulpWebpack = require('webpack-stream')
 const webpack2 = require('webpack')
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 
-const { isDevelopment, getEnvKey, onError } = require('./common')
-
-const configPaths = {
-  dev: `public/js/app/config-dev.js`,
-  ref: `public/js/app/config-ref.js`,
-  prod: `public/js/app/config-prod.js`
-}
-
-const destinationPaths = {
-  dev: 'dist/js/dev/app/view/',
-  ref: 'dist/js/ref/app/view/',
-  prod: 'dist/js/prod/app/view/'
-}
+const { isDevelopment, onError } = require('./common')
 
 module.exports = function (globals) {
   return function (env) {
-    const configPath = configPaths[getEnvKey(env)]
-    const destinationPath = destinationPaths[getEnvKey(env)]
+    const destinationPath = 'dist/js'
 
     return gulp.src('public/js/app/view/*.js')
       .pipe(print())
@@ -35,13 +22,8 @@ module.exports = function (globals) {
         errorHandler: onError
       }))
       .pipe(gulpWebpack(getWebpackJSConfig({
-        resolve: {
-          alias: {
-            config: path.join(globals.dirname, configPath)
-          }
-        },
-        devtool: isDevelopment(env) ? 'source-map' : undefined,
-        plugins: !isDevelopment(env) ? [ new UglifyJsPlugin({
+        devtool: isDevelopment() ? 'source-map' : undefined,
+        plugins: !isDevelopment() ? [ new UglifyJsPlugin({
           sourceMap: true,
           output: {
             comments: argv['preserve-comments']
