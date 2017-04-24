@@ -42,6 +42,50 @@ If you create a build step to transpile JS, don't use `.babelrc`, add settings t
     ]
   }
 ```
+## Migrating from <= 2.x
+
+The gulpfile.js build steps have been simplied because we don't need to generate dev/ref/prod directories. They can now share the same Gulp tasks and will respect NODE_ENV by generating source maps when in "development".
+
+```
+// *** JavaScript helper tasks ***
+gulp.task('webpack', webpack)
+gulp.task('vendor', vendor)
+
+gulp.task('moveResources', function () {
+  // Returning merged streams at the end so Gulp knows when async operations have finished
+  moveResources.cleanKthStyle()
+
+  return mergeStream(
+    moveResources.moveKthStyle(),
+    moveResources.moveBootstrap(),
+    moveResources.moveFontAwesome(),
+    moveResources.moveLocalFonts(),
+    // Move project image files
+    gulp.src('./public/img/*')
+      .pipe(gulp.dest('dist/img'))
+  )
+})
+
+gulp.task('transpileSass', () => sass())
+
+/* Put any addintional helper tasks here */
+
+/**
+ *
+ *  Public tasks used by developer:
+ *
+ */
+
+gulp.task('clean', clean)
+
+gulp.task('build', ['moveResources', 'vendor', 'webpack'], () => sass())
+
+gulp.task('watch', ['build'], function () {
+  gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])
+  gulp.watch(['./public/js/vendor.js'], ['vendor'])
+  gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
+})
+```
 
 ## Migration from < 1.5.x
 
@@ -54,8 +98,6 @@ If you create a build step to transpile JS, don't use `.babelrc`, add settings t
 ```JavaScript
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
 server.use(config.full.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
-// Map bundles build folder to static URL
-server.use(config.full.proxyPrefixPath.uri + '/static/js', express.static(`./dist/js/${getEnv()}`))
 // Map static content like images, css and js.
 server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist'))
 ```
@@ -87,8 +129,9 @@ server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist')
 "vendorProd": "echo \"Deprecated, use 'npm run build' \"",
 "buildConfig": "cross-env NODE_ENV=development NODE_PATH=. node ./buildConfig.js",
 "postinstall": "npm run buildConfig",
-"build": "gulp build --preserve-comments",
-"start": "gulp build:dev --preserve-comments && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
+"build": "NODE_ENV=production gulp build --preserve-comments",
+"start": "NODE_ENV=production node app.js"
+"start-dev": "gulp build:dev --preserve-comments && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
 ```
 
   NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
