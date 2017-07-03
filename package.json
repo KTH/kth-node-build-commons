@@ -38,6 +38,7 @@
     "webpack": "^2.2.0",
     "webpack-error-notification": "^0.1.6",
     "webpack-stream": "^3.2.0",
+    "webpack-visualizer-plugin": "^0.1.11",
     "yargs": "^6.6.0"
   },
   "author": "",
