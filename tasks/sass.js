@@ -5,6 +5,7 @@ const sourcemaps = require('gulp-sourcemaps')
 const gulpIf = require('gulp-if')
 const path = require('path')
 const mergeStream = require('merge-stream')
+const magicImporter = require('node-sass-magic-importer')
 
 const { isDevelopment } = require('./common')
 
@@ -17,7 +18,8 @@ module.exports = function (globals) {
       .pipe(gulpIf(isDevelopment(), sourcemaps.init()))
       .pipe(sass({
         outputStyle: 'compressed',
-        includePaths: path.join(globals.dirname || '', 'node_modules')
+        includePaths: path.join(globals.dirname || '', 'node_modules'),
+        importer: [magicImporter()]
       }).on('error', sass.logError))
       .pipe(gulpIf(isDevelopment(), sourcemaps.write('.')))
       .pipe(gulp.dest('dist/css'))
