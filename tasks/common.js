@@ -1,24 +1,23 @@
 const growly = require('growly')
 const notify = require('gulp-notify')
 
-function isDevelopment () {
+function isDevelopment() {
   return process.env.NODE_ENV !== 'production'
 }
 
-const onError = function (err) {
-  console.log('err', err)
+const onError = err => {
   growly.notify('Gulp failed!' + err)
   notify.onError({
     title: 'Gulp',
     subtitle: 'Failure!',
     message: 'Error: <%= error.message %>',
-    sound: 'Beep'
+    sound: 'Beep',
   })(err)
 
   this.emit('end')
 }
 
 module.exports = {
-  isDevelopment: isDevelopment,
-  onError: onError
+  isDevelopment,
+  onError,
 }

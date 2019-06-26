@@ -1,13 +1,15 @@
 {
   "name": "kth-node-build-commons",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "description": "A standard build and configuration module for Node.js applications.",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/*",
-    "codecheck": "standard",
-    "preversion": "npm run codecheck && npm run test",
-    "postversion": "git push && git push --tags"
+    "preversion": "npm run test",
+    "postversion": "git push && git push --tags",
+    "lint": "eslint \"**/*.{js,jsx}\" --quiet",
+    "lint-v": "eslint \"**/*.{js,jsx}\" ",
+    "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "repository": {
     "type": "git",
@@ -20,8 +22,8 @@
     "deep-assign": "^2.0.0",
     "del": "^2.2.0",
     "growly": "^1.3.0",
-    "gulp": "^3.9.0",
-    "gulp-clean-css": "^2.3.2",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.2.0",
     "gulp-if": "^2.0.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
@@ -38,15 +40,43 @@
     "vinyl-named": "^1.1.0",
     "webpack": "^2.2.0",
     "webpack-error-notification": "^0.1.6",
-    "webpack-stream": "^3.2.0",
+    "webpack-stream": "^5.2.1",
     "webpack-visualizer-plugin": "^0.1.11",
     "yargs": "^6.6.0"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "standard": "^8.6.0"
+    "mocha": "^6.1.4",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "husky": "^1.3.1",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.16.4",
+    "pretty-quick": "1.10.0",
+    "proxyquire": "^2.1.0"
+  },
+  "engines": {
+    "node": "8.12.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test",
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 120
   }
 }

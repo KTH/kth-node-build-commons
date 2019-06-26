@@ -1,5 +1,6 @@
 'use strict'
-var deepAssign = require('deep-assign')
+
+const deepAssign = require('deep-assign')
 const Visualizer = require('webpack-visualizer-plugin')
 
 /**
@@ -10,34 +11,36 @@ const Visualizer = require('webpack-visualizer-plugin')
 const webpackConfig = {
   externals: {
     jquery: 'jQuery',
-    knockout: 'ko'
+    knockout: 'ko',
   },
   plugins: [
     new Visualizer({
-      filename: './webpackClientSize.html'
-    })
+      filename: './webpackClientSize.html',
+    }),
   ],
   module: {
     rules: [
       {
         resource: {
           test: /\.js?$/,
-          exclude: /(node_modules)/ // Is this a bad idea? It prevents us from using ES2015 in node modules
+          exclude: /(node_modules)/, // Is this a bad idea? It prevents us from using ES2015 in node modules
         },
-        use: [{
-          loader: 'babel-loader',
-          options: { presets: ['es2015'] }
-        }]
+        use: [
+          {
+            loader: 'babel-loader',
+            options: { presets: ['es2015'] },
+          },
+        ],
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
-      }
-    ]
-  }
+        loader: 'html-loader',
+      },
+    ],
+  },
 }
 
-module.exports = function (options) {
+module.exports = options => {
   // Create a config object by doing a deep merge, options override webpackConfig
   const outp = deepAssign({}, webpackConfig, options)
   return outp
