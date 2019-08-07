@@ -1,6 +1,6 @@
 {
   "name": "kth-node-build-commons",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A standard build and configuration module for Node.js applications.",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.2.0",
     "gulp-if": "^2.0.2",
-    "gulp-notify": "^2.2.0",
+    "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.1.0",
     "gulp-print": "^2.0.1",
     "gulp-rename": "^1.2.2",
