@@ -9,7 +9,8 @@
     "postversion": "git push && git push --tags",
     "lint": "eslint \"**/*.{js,jsx}\" --quiet",
     "lint-v": "eslint \"**/*.{js,jsx}\" ",
-    "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}"
+    "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}",
+    "build": "npm test"
   },
   "repository": {
     "type": "git",
