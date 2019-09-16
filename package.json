@@ -3,7 +3,10 @@
   "version": "4.0.2",
   "description": "A standard build and configuration module for Node.js applications.",
   "main": "index.js",
-  "email": "web-developers@kth.se",
+  "author": {
+    "name": "KTH Team Webb",
+    "email": "web-developers@kth.se"
+  },
   "scripts": {
     "test": "mocha test/*",
     "preversion": "npm run test",
@@ -46,7 +49,6 @@
     "webpack-visualizer-plugin": "^0.1.11",
     "yargs": "^6.6.0"
   },
-  "author": "",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^6.1.4",
