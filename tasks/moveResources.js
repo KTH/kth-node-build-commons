@@ -11,10 +11,7 @@ const moveKthStyle = () => {
 const moveBootstrap = () => {
   return () => {
     const bootstrap = gulp
-      .src([
-        './node_modules/bootstrap/dist/css/bootstrap.min.css',
-        './node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
-      ])
+      .src(['./node_modules/bootstrap/dist/css/bootstrap.min.css'])
       .pipe(gulp.dest('dist/css/bootstrap'))
 
     const fonts = gulp.src('./node_modules/bootstrap/fonts/**/*.{ttf,woff*,eof,svg}').pipe(gulp.dest('dist/css/fonts'))
