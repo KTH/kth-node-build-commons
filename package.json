@@ -1,6 +1,6 @@
 {
   "name": "kth-node-build-commons",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "A standard build and configuration module for Node.js applications.",
   "main": "index.js",
   "author": {
@@ -68,7 +68,7 @@
     "proxyquire": "^2.1.0"
   },
   "engines": {
-    "node": "8.12.0"
+    "node": "8.16.1"
   },
   "husky": {
     "hooks": {

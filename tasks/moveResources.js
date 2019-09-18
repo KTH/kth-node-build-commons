@@ -42,10 +42,11 @@ const moveLocalFonts = () => {
 }
 
 const cleanKthStyle = () => {
-  return () => {
+  return (done) => {
     // Performing this sync because we want to make sure nothing else is started
     // before this is completed
     del.sync(['dist/css/kth-style/*', 'dist/img/kth-style/*'])
+    done()
   }
 }
 
