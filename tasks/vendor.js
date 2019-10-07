@@ -2,7 +2,8 @@ const gulp = require('gulp')
 const plumber = require('gulp-plumber')
 const named = require('vinyl-named')
 const print = require('gulp-print')
-const webpack = require('webpack-stream')
+const gulpWebpack = require('webpack-stream')
+const webpack2 = require('webpack')
 const { UglifyJsPlugin } = require('webpack').optimize
 const mergeStream = require('merge-stream')
 
@@ -20,10 +21,13 @@ module.exports = () => {
         })
       )
       .pipe(
-        webpack({
-          devtool: isDevelopment() ? 'source-map' : undefined,
-          plugins: !isDevelopment() ? [new UglifyJsPlugin({ sourceMap: true })] : undefined,
-        })
+        gulpWebpack(
+          {
+            devtool: isDevelopment() ? 'source-map' : undefined,
+            plugins: !isDevelopment() ? [new UglifyJsPlugin({ sourceMap: true })] : undefined,
+          },
+          webpack2
+        )
       )
       .pipe(gulp.dest('dist/js'))
 
