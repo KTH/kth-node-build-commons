@@ -13,7 +13,6 @@ const { isDevelopment, onError } = require('./common')
 module.exports = () => {
   return () => {
     const destinationPath = 'dist/js/app/view'
-
     return gulp
       .src('public/js/app/view/*.js')
       .pipe(print())
@@ -29,6 +28,9 @@ module.exports = () => {
             devtool: isDevelopment() ? 'source-map' : undefined,
             plugins: !isDevelopment()
               ? [
+                  new webpack2.DefinePlugin({
+                    'process.env.NODE_ENV': JSON.stringify('production'),
+                  }),
                   new UglifyJsPlugin({
                     sourceMap: true,
                     output: {
