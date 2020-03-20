@@ -1,7 +1,6 @@
 'use strict'
 
 const deepAssign = require('deep-assign')
-const Visualizer = require('webpack-visualizer-plugin')
 
 /**
  * This file contains some standard options for webpack. They are merged with provided
@@ -13,11 +12,6 @@ const webpackConfig = {
     jquery: 'jQuery',
     knockout: 'ko',
   },
-  plugins: [
-    new Visualizer({
-      filename: './webpackClientSize.html',
-    }),
-  ],
   module: {
     rules: [
       {

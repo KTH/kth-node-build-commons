@@ -1,6 +1,6 @@
 {
   "name": "kth-node-build-commons",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "A standard build and configuration module for Node.js applications.",
   "main": "index.js",
   "author": {
@@ -46,7 +46,6 @@
     "webpack": "^2.2.0",
     "webpack-error-notification": "^0.1.6",
     "webpack-stream": "^5.2.1",
-    "webpack-visualizer-plugin": "^0.1.11",
     "yargs": "^6.6.0"
   },
   "license": "MIT",
