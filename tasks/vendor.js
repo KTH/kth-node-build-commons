@@ -1,7 +1,7 @@
 const gulp = require('gulp')
 const plumber = require('gulp-plumber')
 const named = require('vinyl-named')
-const print = require('gulp-print')
+const print = require('gulp-print').default
 const gulpWebpack = require('webpack-stream')
 const webpack2 = require('webpack')
 const { UglifyJsPlugin } = require('webpack').optimize
