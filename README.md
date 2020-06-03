@@ -1,15 +1,22 @@
 # kth-node-build-commons
+
+```
+[UNMAINTAINED: This package is no longer maintained, i.e. per 2020-06-01]
+```
+
 [![Build Status](https://travis-ci.org/KTH/kth-node-build-commons.svg?branch=master)](https://travis-ci.org/KTH/kth-node-build-commons)
 
 This package is intended to be imported in web projects to handle standard builds in each project. It consists of a few files, but no main file.
 
 # buildConfig.js
+
 This file builds a config file with the safe configuration.
 Common use case is to import the built file in the client side code with webpack.
 
 `Required: call .setPaths() with an object as parameter in the web project.`
 
 ### Example: /path/to/web-project/buildConfig.js
+
 ```
 	const paths = require('./server/init/routing/paths')
 	const buildConfig = require('kth-node-build-commons/buildConfig')
@@ -18,11 +25,13 @@ Common use case is to import the built file in the client side code with webpack
 ```
 
 # Gulp
+
 This package contains a set of Gulp-tasks to be used when building node-web based projects. To allow the project maintainer more control over the build process these are exposed as functions that are wired up in the actual project. An example of this is done can be found in this package `gulpfile.js` which also provides backwards compatibility for exisiting projects.
 
 The new way to use these gulp tasks has been implemented in node-web and will be pushed to projects through upstream merges.
 
 ### Minifying Knockout code
+
 In PROD and REF we use uglify to minify JavaScript. By specifying the option --preserve-comments we keep ALL comments that
 Webpack has bundled. This allows Knockout.js bindings to work properly.
 
@@ -42,6 +51,7 @@ If you create a build step to transpile JS, don't use `.babelrc`, add settings t
     ]
   }
 ```
+
 ## Migrating from <= 2.x
 
 The gulpfile.js build steps have been simplied because we don't need to generate dev/ref/prod directories. They can now share the same Gulp tasks and will respect NODE_ENV by generating source maps when in "development".
@@ -108,7 +118,7 @@ server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist')
 	@import "kth-style/variables/colors";
 ```
 
-  to (adding */sass* to match path in kth-style-package)
+to (adding _/sass_ to match path in kth-style-package)
 
 ```
 	@import "kth-style/sass/variables/colors";
@@ -134,7 +144,7 @@ server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist')
 "start-dev": "gulp build:dev --preserve-comments && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
 ```
 
-  NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
+NOTE: The gulp option `--preserve-comments` is needed for projects using Knockout, but should otherwise be omitted
 
 10. Add `merge-stream` to `package.json`
 
