@@ -9,17 +9,17 @@ const mergeStream = require('merge-stream')
 
 const { isDevelopment, onError } = require('./common')
 
+/**
+ * This exported function takes the vendor.js file (which is a js file that contains external js libray files) and
+ * prints the name for debugging purpose and
+ */
 module.exports = () => {
   return () => {
     const vendor = gulp
       .src('./public/js/vendor.js')
       .pipe(print())
       .pipe(named())
-      .pipe(
-        plumber({
-          errorHandler: onError,
-        })
-      )
+      .pipe(plumber({ errorHandler: onError }))
       .pipe(
         gulpWebpack(
           {
