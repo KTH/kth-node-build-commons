@@ -2,6 +2,7 @@
   "name": "kth-node-build-commons",
   "version": "4.1.4",
   "description": "A standard build and configuration module for Node.js applications. ",
+  "automaticPublish": "true",
   "main": "index.js",
   "author": {
     "name": "KTH Team Webb",
